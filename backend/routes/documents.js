@@ -6,7 +6,7 @@ const router = express.Router();
 // Get all documents for the logged-in user
 router.get('/', verifyToken, async (req, res) => {
     try {
-        // const documents = await Document.find({ owner: req.user.id });
+        //const documents = await Document.find({ owner: req.user.id });
         const documents = await Document.find({});
         res.json(documents);
     } catch (error) {

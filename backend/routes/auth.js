@@ -37,20 +37,21 @@ router.post('/login', async (req, res) => {
 
   try {
     const user = await User.findOne({ email });
+    console.log(user)
     if (!user) {
       return res.status(400).json({ message: 'Invalid Email' });
     }
     const isMatch = await bcrypt.compare(password, user.password);
+    console.log('Password Match:', isMatch); // Should log `true` if passwords match
     if (!isMatch) {
         return res.status(400).json({ message: 'Invalid password' });
     }
 
-    //json web token
+
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: '1h',
     });
 
-    //
     res.status(201).json({ username: user.name,token:token });
     console.log(user.name)
   } catch (error) {

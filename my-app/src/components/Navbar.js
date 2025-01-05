@@ -7,46 +7,56 @@ const Navbar = () => {
     const user = userString ? JSON.parse(userString) : null;
 
     const handleLogout = () => {
+        // Remove user data from local storage
         localStorage.removeItem('user');
+        // Redirect to landing page
         navigate('/');
     };
 
     return (
-        <nav className="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+        <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <div className="container-fluid">
-                <Link className="navbar-brand fs-3" to="/">
-                    <img src="https://cdn-icons-png.flaticon.com/512/4419/4419067.png" alt="CollabTool Logo" className="d-inline-block align-text-top-mt-2" width="65" height="35" />CollabTool
+                {/* Logo with a link to dashboard */}
+                <Link className="navbar-brand" to="/dashboard">
+                    <img 
+                        src="https://us.123rf.com/450wm/shaharea/shaharea2408/shaharea240800157/234192095-creative-settings-icon.jpg?ver=6" 
+                        alt="CollabTool Logo" 
+                        style={{ width: '30px', height: '30px', marginRight: '10px' }} // Adjust logo size
+                    />
+                    CollabTool
                 </Link>
-                <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <button 
+                    className="navbar-toggler" 
+                    type="button" 
+                    data-bs-toggle="collapse" 
+                    data-bs-target="#navbarNav" 
+                    aria-controls="navbarNav" 
+                    aria-expanded="false" 
+                    aria-label="Toggle navigation"
+                >
                     <span className="navbar-toggler-icon"></span>
                 </button>
                 <div className="collapse navbar-collapse" id="navbarNav">
                     <ul className="navbar-nav me-auto">
                         <li className="nav-item">
-                            <Link className="nav-link" to="/dashboard"><b>Dashboard</b></Link>
+                            <Link className="nav-link" to="/dashboard">Dashboard</Link>
                         </li>
                     </ul>
-
                     {user ? (
                         <ul className="navbar-nav">
-                            <li className="nav-item dropdown">
-                                <button className="btn btn-link nav-link dropdown-toggle" id="navbarDropdown"  data-bs-toggle="dropdown" aria-expanded="false">
-                                    {user.username}
+                            <li className="nav-item">
+                                <button className="btn btn-link nav-link" onClick={handleLogout}>
+                                    {user.username} Logout
                                 </button>
-                                <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li>
-                                        <button className="dropdown-item" onClick={handleLogout}><strong>Logout</strong></button>
-                                    </li>
-                                </ul>
                             </li>
                         </ul>
                     ) : (
                         <ul className="navbar-nav">
                             <li className="nav-item">
-                                <Link className="nav-link btn btn-outline-danger" to="/login"><b>Login</b></Link>
+                                <Link className="nav-link" to="/login">Login</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link btn btn-outline-primary  " to="/register"><b>Register</b></Link>
+                                <Link className="nav-link" to="/register">Register</Link>
                             </li>
                         </ul>
                     )}

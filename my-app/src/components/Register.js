@@ -1,39 +1,36 @@
 // Register.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import './Register.css';  // Import custom CSS for additional styling
 
 const Register = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
-    const [successMessage, setSuccessMessage] = useState('');
+    const [error, setError] = useState(''); // State to handle error message
     const navigate = useNavigate();
 
     const handleRegister = async (e) => {
         e.preventDefault();
-        setError('');
-        setSuccessMessage('');
-
-        // Simulating an API request
+        setError(''); // Clear any previous errors
         try {
-            const user = { name, email, password };
-            localStorage.setItem('user', JSON.stringify(user));
-
-            setSuccessMessage('Registration successful! Redirecting to login...');
-            setName('');
-            setEmail('');
-            setPassword('');
-                navigate('/login');
-        } catch (err) {
-            setError('Something went wrong. Please try again.');
+            const { data } = await axios.post('http://localhost:5000/api/auth/register', { name, email, password });
+            localStorage.setItem('token', data.token);
+            navigate('/login'); // Redirect to login if registration is successful
+        } catch (error) {
+            if (error.response && error.response.data && error.response.data.message) {
+                setError(error.response.data.message); // Set error message if registration fails
+            } else {
+                setError('An unexpected error occurred. Please try again later.');
+            }
         }
     };
 
     return (
-        <div className="container d-flex justify-content-center align-items-center min-vh-100">
-            <div className="card p-4 shadow-lg" style={{ maxWidth: '400px', width: '100%' }}>
-                <h2 className="text-center mb-4">Register</h2>
+        <div className="register-container">
+            <div className="register-popup animate__animated animate__fadeIn">
+                <h2>Create Account</h2>
                 <form onSubmit={handleRegister}>
                     <div className="mb-3">
                         <label htmlFor="name" className="form-label">Username</label>
@@ -68,11 +65,10 @@ const Register = () => {
                             required
                         />
                     </div>
-                    <button type="submit" className="btn btn-primary w-100">Register</button>
+                    <button type="submit" className="btn btn-success w-100">Register</button>
                 </form>
-                {error && <p className="text-danger mt-3 text-center">{error}</p>}
-                {successMessage && <p className="text-success mt-3 text-center">{successMessage}</p>}
-                <p className="text-center mt-3">Already have an account? <a href="/login">Login</a></p>
+                {error && <p className="text-danger mt-3">{error}</p>} {/* Display error message */}
+                <p className="text-center">Already have an account? <a href="/">Login</a></p>
             </div>
         </div>
     );

@@ -1,0 +1,66 @@
+/* Login.css */
+
+/* The container for the entire page */
+.login-container {
+    position: fixed; /* Position the container fixed */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* Dark semi-transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1050; /* To make sure the popup appears above other elements */
+}
+
+/* The actual popup form */
+.login-popup {
+    background-color: white;
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px; /* Restrict width */
+    animation: slideIn 0.5s ease-out;
+}
+
+/* Animations for the form */
+@keyframes slideIn {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Additional form styles */
+.login-popup h2 {
+    color: #007bff;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.login-popup .form-control {
+    margin-bottom: 15px;
+}
+
+.login-popup .btn-primary {
+    width: 100%;
+}
+
+.login-popup a {
+    color: #007bff;
+}
+
+.login-popup a:hover {
+    text-decoration: underline;
+}
+
+.text-danger {
+    text-align: center;
+    font-weight: bold;
+}
